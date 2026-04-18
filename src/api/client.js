@@ -54,3 +54,16 @@ export async function registerUser (email, password, name ) {
     `, {email, password, name }) 
     return data.register 
 }
+
+export async function getGames({ platform, genre, yearMin, yearMax, limit = 50, offset = 0 } = {}) {
+  const data = await gql(`
+    query Games($platform: String, $genre: String, $yearMin: Int, $yearMax: Int, $limit: Int, $offset: Int) {
+      games(platform: $platform, genre: $genre, yearMin: $yearMin, yearMax: $yearMax, limit: $limit, offset: $offset) {
+        id name platform year genre publisher
+        globalSales naSales euSales jpSales
+      }
+    }
+  `, { platform: platform || undefined, genre: genre || undefined, yearMin, yearMax, limit, offset })
+  return data.games
+}
+
