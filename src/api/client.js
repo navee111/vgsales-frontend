@@ -19,4 +19,19 @@ async function gql(query, variables = {}) {
 }
 
 
-  
+// auth 
+
+ export async function loginUser (email, password) {
+  const data = await gql(`
+
+    mutation login ($email: String!, $password: String!) {
+    login(email: $email, password: $password) {
+      token 
+      user { id email name }
+
+    }
+  }
+    `, {email, password})
+     
+return data.login 
+}
