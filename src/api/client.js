@@ -1,3 +1,5 @@
+import { gql } from "@apollo/client"
+
 const API_URL = 
 
 
@@ -34,4 +36,21 @@ async function gql(query, variables = {}) {
     `, {email, password})
      
 return data.login 
+}
+
+
+export async function registerUser (email, password, name ) {
+  const data = await gql(`
+    
+     mutation register ($email: String!, $password: String!, $name: String!) {
+     register (email: $email password: $ password name: $name) {
+     
+     token 
+     user { id email name }
+     
+     }
+     }
+
+    `, {email, password, name }) 
+    return data.register 
 }
