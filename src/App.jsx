@@ -6,5 +6,21 @@ import Dashboard from './pages/Dashboard'
 import GameTable from './pages/GamesTable'
 
 
-
+export default function App() {
+const [user, setUser ] = useState(()=>{
+  const stored = localStorage.getitem('user')
+  return stored ? JSON.parse(stored) : null 
+})
+ const handleLogin = (userData) => {
+  localStorage.setItem('user', JSON.stringify(userData))
+  localStorage.setItem('token', userData || '')
+  setUser(userData)
+ }
+ const handleLogout = () => {
+  localStorage.removeItem('user')
+  localStorage.removeItem('token')
+  setUser(null)
+ 
+}
+}
 
