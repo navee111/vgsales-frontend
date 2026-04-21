@@ -67,3 +67,33 @@ export async function getGames({ platform, genre, yearMin, yearMax, limit = 50, 
   return data.games
 }
 
+// state 
+
+export async function getGenre() {
+  const data = await gql(`
+    query {
+    genres {
+    name 
+    totalGames
+    avarageSales
+    }}
+    `)
+    return data.genre 
+
+}
+
+export async function getPublishers(limit = 0 ) {
+  const data = await gql(`
+    query publishers($limit: Int) {
+    publishers(limit: $limit) {
+   
+    name
+    totalGames
+    totalSales
+    }
+  }
+    `, {limit})
+    return data.publishers
+}
+
+
