@@ -7,7 +7,7 @@ import GameTable from "./pages/GamesTable"
 
 export default function App() {
   const [user, setUser] = useState(() => {
-    const stored = localStorage.getitem("user")
+    const stored = localStorage.getItem("user")
     return stored ? JSON.parse(stored) : null
   })
   const handleLogin = (userData) => {
