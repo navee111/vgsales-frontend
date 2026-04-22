@@ -1,10 +1,6 @@
-import { gql } from "@apollo/client"
+const API_URL = 'https://api-design-assignment-production.up.railway.app/graphql'
 
-const API_URL = 
-
-
-// graph anrop 
-
+// Bas GraphQL-anrop
 async function gql(query, variables = {}) {
   const token = localStorage.getItem('token')
   const res = await fetch(API_URL, {
@@ -20,40 +16,33 @@ async function gql(query, variables = {}) {
   return json.data
 }
 
+// ── AUTH ──────────────────────────────────────────────
 
-// auth 
-
- export async function loginUser (email, password) {
+export async function loginUser(email, password) {
   const data = await gql(`
-
-    mutation login ($email: String!, $password: String!) {
-    login(email: $email, password: $password) {
-      token 
-      user { id email name }
-
+    mutation Login($email: String!, $password: String!) {
+      login(email: $email, password: $password) {
+        token
+        user { id email name }
+      }
     }
-  }
-    `, {email, password})
-     
-return data.login 
+  `, { email, password })
+  return data.login
 }
 
-
-export async function registerUser (email, password, name ) {
+export async function registerUser(email, password, name) {
   const data = await gql(`
-    
-     mutation register ($email: String!, $password: String!, $name: String!) {
-     register (email: $email password: $ password name: $name) {
-     
-     token 
-     user { id email name }
-     
-     }
-     }
-
-    `, {email, password, name }) 
-    return data.register 
+    mutation Register($email: String!, $password: String!, $name: String!) {
+      register(email: $email, password: $password, name: $name) {
+        token
+        user { id email name }
+      }
+    }
+  `, { email, password, name })
+  return data.register
 }
+
+// ── GAMES ─────────────────────────────────────────────
 
 export async function getGames({ platform, genre, yearMin, yearMax, limit = 50, offset = 0 } = {}) {
   const data = await gql(`
@@ -67,33 +56,32 @@ export async function getGames({ platform, genre, yearMin, yearMax, limit = 50, 
   return data.games
 }
 
-// state 
+// ── STATS ─────────────────────────────────────────────
 
-export async function getGenre() {
+export async function getGenres() {
   const data = await gql(`
     query {
-    genres {
-    name 
-    totalGames
-    avarageSales
-    }}
-    `)
-    return data.genre 
-
+      genres {
+        name
+        totalGames
+        averageSales
+      }
+    }
+  `)
+  return data.genres
 }
 
-export async function getPublishers(limit = 0 ) {
+export async function getPublishers(limit = 10) {
   const data = await gql(`
-    query publishers($limit: Int) {
-    publishers(limit: $limit) {
-   
-    name
-    totalGames
-    totalSales
+    query Publishers($limit: Int) {
+      publishers(limit: $limit) {
+        name
+        totalGames
+        totalSales
+      }
     }
-  }
-    `, {limit})
-    return data.publishers
+  `, { limit })
+  return data.publishers
 }
 
 

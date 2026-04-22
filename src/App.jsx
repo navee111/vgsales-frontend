@@ -27,9 +27,9 @@ export default function App() {
       <div className="min-h-screen bg-gray-950 text-white">
         <Navbar user={user} onLogin={handleLogout}/>
         <Routes>
-          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/" element={<Dashboard />} />
           <Route path="/games" element={<GameTable />} />
-          <Route path="/" element={<Navigate to="/dashboard" />} />
+          <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </div>
     </BrowserRouter>
