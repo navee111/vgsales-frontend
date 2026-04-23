@@ -19,13 +19,14 @@ export default function App() {
     localStorage.removeItem("user")
     localStorage.removeItem("token")
     setUser(null)
+    window.location.href = '/'
   }
    
   if (!user) return <LoginPage onLogin={handleLogin}/>
   return (
     <BrowserRouter>
       <div className="min-h-screen bg-gray-950 text-white">
-        <Navbar user={user} onLogin={handleLogout}/>
+        <Navbar user={user} onLogout={handleLogout}/>
         <Routes>
           <Route path="/" element={<Dashboard />} />
           <Route path="/games" element={<GameTable />} />
