@@ -8,13 +8,25 @@ dotenv.config()
 
 const app = express()
 
-app.use(cors({ origin: process.env.FRONTEND_URL, credentials: true }))
+app.use(cors({ 
+  origin: [
+    process.env.FRONTEND_URL,
+    'https://vgsales-frontend-production.up.railway.app',
+    'http://localhost:5173'
+  ], 
+  credentials: true 
+}))
 app.use(express.json())
 app.use(session({
-  secret: process.env.SESSION_SECRET,
+  secret: process.env.SESSION_SECRET || 'fallback-secret',
   resave: false,
   saveUninitialized: false,
-  cookie: { secure: false, httpOnly: true, maxAge: 7 * 24 * 60 * 60 * 1000 }
+  cookie: { 
+    secure: process.env.NODE_ENV === 'production',
+    httpOnly: true, 
+    maxAge: 7 * 24 * 60 * 60 * 1000,
+    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax'
+  }
 }))
 
 app.get('/auth/google', (req, res) => {
