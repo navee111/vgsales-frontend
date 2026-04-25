@@ -3,6 +3,7 @@ import cors from 'cors'
 import session from 'express-session'
 import axios from 'axios'
 import dotenv from 'dotenv'
+import process from 'node:process'
 dotenv.config()
 
 const app = express()
@@ -81,4 +82,6 @@ app.post('/auth/logout', (req, res) => {
   res.json({ ok: true })
 })
 
-app.listen(3001, () => console.log('Auth server kör på http://localhost:3001'))
+const PORT = process.env.PORT || 3001
+app.listen(PORT, () => console.log(`Auth server kör på port ${PORT}`))
+
