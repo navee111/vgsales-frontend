@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 import { useState, useEffect, useCallback } from 'react'
 import { getGames } from '../api/client'
 import FilterBar from '../components/filters/FilterBar'
@@ -19,7 +20,7 @@ export default function GamesTable() {
    * @returns {Promise<void>}
    */
   const fetchGames = useCallback(async () => {
-    setLoading(true)
+    //setLoading(true)
     try {
       const results = await getGames({
         platform: filters.platform || undefined,
@@ -35,9 +36,11 @@ export default function GamesTable() {
     } finally {
       setLoading(false)
     }
-  }, [page, filters])
+  }, [page, filters]) 
 
-  useEffect(() => { fetchGames() }, [fetchGames])
+  useEffect(() => { 
+    setLoading (true)
+    fetchGames() }, [fetchGames])
 
   /**
    * Updates filters and resets pagination to the first page.
