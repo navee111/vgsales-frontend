@@ -3,15 +3,30 @@ import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from 'recharts'
 import { getGames } from '../../api/client'
 import LoadingSpinner from '../LoadingSpinner'
 
+/** @type {string[]} Color palette for pie chart slices */
 const COLORS = ['#a855f7','#8b5cf6','#6d28d9','#ec4899','#f59e0b','#10b981','#3b82f6','#ef4444']
 
+/**
+ * Displays a pie chart of the top 8 platforms by total global game sales.
+ * Fetches up to 500 games on mount, aggregates sales by platform, sorts
+ * descending, and renders the top 8 as labeled pie slices.
+ *
+ * @component
+ * @returns {JSX.Element} A pie chart card, or a loading spinner while data is being fetched.
+ */
 export default function SalesByPlatform() {
+  /**
+   * @type {[Array<{platform: string, total_sales: number}>, Function]}
+   */
   const [data, setData] = useState([])
+
+  /** @type {[boolean, Function]} */
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     getGames({ limit: 500 })
       .then(games => {
+        /** @type {Record<string, number>} Accumulator mapping platform name to summed global sales */
         const byPlatform = {}
         games.forEach(g => {
           byPlatform[g.platform] = (byPlatform[g.platform] || 0) + (g.globalSales || 0)
@@ -40,12 +55,22 @@ export default function SalesByPlatform() {
             nameKey="platform"
             cx="50%" cy="50%"
             outerRadius={100}
+            /**
+             * Custom slice label showing platform name and percentage share.
+             * @param {{ platform: string, percent: number }} props - Recharts label props.
+             * @returns {string} Formatted label string.
+             */
             label={({ platform, percent }) => `${platform} ${(percent * 100).toFixed(0)}%`}
           >
             {data.map((_, i) => <Cell key={i} fill={COLORS[i % COLORS.length]} />)}
           </Pie>
           <Tooltip
             contentStyle={{ backgroundColor: '#1f2937', border: 'none', borderRadius: 8 }}
+            /**
+             * Custom tooltip formatter showing sales in millions.
+             * @param {number} v - The sales value for the hovered slice.
+             * @returns {[string, string]} Formatted value and series label.
+             */
             formatter={v => [`${v.toFixed(1)}M`, 'Försäljning']}
           />
         </PieChart>
