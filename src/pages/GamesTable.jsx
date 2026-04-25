@@ -3,6 +3,10 @@ import { getGames } from '../api/client'
 import FilterBar from '../components/filters/FilterBar'
 import LoadingSpinner from '../components/LoadingSpinner'
 
+/**
+ * Renders the paginated games table with filter controls.
+ * @returns {JSX.Element}
+ */
 export default function GamesTable() {
   const [games, setGames] = useState([])
   const [loading, setLoading] = useState(true)
@@ -10,6 +14,10 @@ export default function GamesTable() {
   const [totalPages, setTotalPages] = useState(2)
   const [filters, setFilters] = useState({ search: '', genre: '', platform: '' })
 
+  /**
+   * Fetches games for the current page and active filters.
+   * @returns {Promise<void>}
+   */
   const fetchGames = useCallback(async () => {
     setLoading(true)
     try {
@@ -31,6 +39,11 @@ export default function GamesTable() {
 
   useEffect(() => { fetchGames() }, [fetchGames])
 
+  /**
+   * Updates filters and resets pagination to the first page.
+   * @param {{ search: string, genre: string, platform: string }} newFilters
+   * @returns {void}
+   */
   const handleFilterChange = (newFilters) => {
     setFilters(newFilters)
     setPage(1)
