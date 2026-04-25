@@ -3,6 +3,10 @@ import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'rec
 import { getGames } from '../../api/client'
 import LoadingSpinner from '../LoadingSpinner'
 
+/**
+ * Displays global game sales trend per year using a sampled games dataset.
+ * @returns {JSX.Element}
+ */
 export default function SalesOverTime() {
   const [data, setData] = useState([])
   const [loading, setLoading] = useState(true)
