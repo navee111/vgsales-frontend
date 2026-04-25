@@ -17,6 +17,15 @@ app.use(cors({
   credentials: true 
 }))
 app.use(express.json())
+app.get('/debug', (req, res) => {
+  res.json({
+    hasClientId: !!process.env.GOOGLE_CLIENT_ID,
+    hasClientSecret: !!process.env.GOOGLE_CLIENT_SECRET,
+    hasRedirectUri: !!process.env.GOOGLE_REDIRECT_URI,
+    frontendUrl: process.env.FRONTEND_URL,
+    nodeEnv: process.env.NODE_ENV
+  })
+})
 app.use(session({
   secret: process.env.SESSION_SECRET || 'fallback-secret',
   resave: false,
