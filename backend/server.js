@@ -103,6 +103,6 @@ app.post('/auth/logout', (req, res) => {
   res.json({ ok: true })
 })
 
-const PORT = process.env.PORT || 8080
+const PORT = process.env.PORT || 3001
 app.listen(PORT, () => console.log(`Auth server kör på port ${PORT}`))
 
