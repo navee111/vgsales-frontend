@@ -5,6 +5,10 @@ import LoadingSpinner from '../LoadingSpinner'
 
 const COLORS = ['#a855f7','#8b5cf6','#7c3aed','#6d28d9','#5b21b6','#4c1d95','#9333ea','#c084fc','#e879f9','#f0abfc']
 
+/**
+ * Renders the top publishers by total global sales.
+ * @returns {JSX.Element}
+ */
 export default function TopPublishers() {
   const [data, setData] = useState([])
   const [loading, setLoading] = useState(true)
