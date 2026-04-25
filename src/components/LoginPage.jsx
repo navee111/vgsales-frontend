@@ -9,7 +9,7 @@ export default function LoginPage() {
         </p>
 
         <a
-          href="http://localhost:3001/auth/google"
+          href="https://wonderful-flexibility-production-e850.up.railway.app/auth/google"
           className="flex items-center gap-3 bg-white text-gray-800 font-semibold px-6 py-3 rounded-xl hover:bg-gray-100 transition"
         >
           <img src="https://www.google.com/favicon.ico" className="w-5 h-5" alt="Google" />

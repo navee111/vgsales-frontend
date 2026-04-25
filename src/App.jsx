@@ -15,7 +15,7 @@ export default function App() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    fetch('http://localhost:3001/auth/me', { credentials: 'include' })
+    fetch('https://wonderful-flexibility-production-e850.up.railway.app/auth/me', { credentials: 'include' })
       .then(r => r.ok ? r.json() : null)
       .then(data => {
         if (data) {
@@ -32,7 +32,7 @@ export default function App() {
    * @returns {void}
    */
   const handleLogout = async () => {
-    await fetch('http://localhost:3001/auth/logout', { method: 'POST', credentials: 'include' })
+    await fetch('https://wonderful-flexibility-production-e850.up.railway.app/auth/logout', { method: 'POST', credentials: 'include' })
     localStorage.removeItem('token')
     setUser(null)
   }
