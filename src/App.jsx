@@ -7,7 +7,6 @@ import LoginPage from './components/LoginPage'
 
 /**
  * Root application component handling auth state and route setup.
- * Fetches session from backend on mount and manages logout.
  * @returns {JSX.Element}
  */
 export default function App() {
@@ -15,25 +14,39 @@ export default function App() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    fetch('https://wonderful-flexibility-production-e850.up.railway.app/auth/me', { credentials: 'include' })
-      .then(r => r.ok ? r.json() : null)
-      .then(data => {
-        if (data) {
-          setUser(data.user)
-          localStorage.setItem('token', data.token)
-        }
-      })
-      .catch(() => {})
-      .finally(() => setLoading(false))
+    // Kolla om token finns i URL efter OAuth redirect
+    const params = new URLSearchParams(window.location.search)
+    const token = params.get('token')
+    const name = params.get('name')
+    const email = params.get('email')
+
+    if (token && name) {
+      localStorage.setItem('token', token)
+      localStorage.setItem('user', JSON.stringify({ name, email }))
+      setUser({ name, email })
+      window.history.replaceState({}, '', '/')
+      setLoading(false)
+      return
+    }
+
+    // Annars kolla localStorage
+    const stored = localStorage.getItem('user')
+    if (stored) {
+      setUser(JSON.parse(stored))
+      setLoading(false)
+      return
+    }
+
+    setLoading(false)
   }, [])
 
   /**
-   * Clears session on backend and removes token from localStorage.
+   * Clears auth state and token from localStorage.
    * @returns {void}
    */
-  const handleLogout = async () => {
-    await fetch('https://wonderful-flexibility-production-e850.up.railway.app/auth/logout', { method: 'POST', credentials: 'include' })
+  const handleLogout = () => {
     localStorage.removeItem('token')
+    localStorage.removeItem('user')
     setUser(null)
   }
 
@@ -55,4 +68,3 @@ export default function App() {
     </BrowserRouter>
   )
 }
- 
