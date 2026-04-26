@@ -1,4 +1,20 @@
-export default function LoginPage() {
+const AUTH_ERROR_MESSAGES = {
+  auth_failed: 'Inloggningen misslyckades. Prova igen och kontrollera att du tillater popup/redirect.',
+}
+
+/**
+ * Login entry screen with optional OAuth error feedback.
+ * @param {{ authError?: string | null }} props
+ * @returns {JSX.Element}
+ */
+export default function LoginPage({ authError = null }) {
+  const errorMessage =
+    authError && AUTH_ERROR_MESSAGES[authError]
+      ? AUTH_ERROR_MESSAGES[authError]
+      : authError
+        ? 'Ett okant inloggningsfel uppstod. Forsok igen.'
+        : null
+
   return (
     <div className="min-h-screen bg-gray-950 flex items-center justify-center">
       <div className="bg-gray-900 rounded-2xl p-10 flex flex-col items-center gap-6 shadow-2xl border border-gray-800">
@@ -7,6 +23,15 @@ export default function LoginPage() {
         <p className="text-gray-400 text-center max-w-xs">
           Utforska 16 000+ videospel och deras försäljningsdata globalt
         </p>
+
+        {errorMessage ? (
+          <div
+            className="w-full max-w-sm rounded-lg border border-red-500/40 bg-red-500/10 px-4 py-3 text-sm text-red-200"
+            role="alert"
+          >
+            {errorMessage}
+          </div>
+        ) : null}
 
         <a
           href="https://vgsales-backend-production.up.railway.app/auth/google"
